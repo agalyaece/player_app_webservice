@@ -6,6 +6,9 @@ import dotenv from "dotenv";
 import { connectDB } from "./config/db.js";
 
 import homeRoutes from "./routes/home.route.js";
+import matchRoutes from "./routes/matches.route.js"
+import fantasyRoutes from "./routes/fantasy.route.js";
+
 
 
 dotenv.config();
@@ -26,6 +29,8 @@ const corsOption = {
 app.use(cors(corsOption))
 
 app.use("/home", homeRoutes)
+app.use("/matches", matchRoutes)
+app.use("/fantasy", fantasyRoutes)
 
 app.listen(PORT, () => {
     connectDB();

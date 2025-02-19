@@ -7,11 +7,11 @@ import Team from "../../models/home/team.module.js";
 export const createTeam = async (req, res) => {
     const teams = req.body;
 
-    const existingTeam = await Team.findOne({ name: teams.name, category: teams.category });
+    const existingTeam = await Team.findOne({ name: teams.team_name, category: teams.category });
     if (existingTeam) {
         return res.status(400).json({ success: false, message: "Team already exists, try adding new" });
     }
-    if (!teams.category || !teams.name || !teams.players) {
+    if (!teams.category || !teams.team_name || !teams.players) {
         return res.status(400).json({ success: false, message: "Provide all fields" })
     }
     const newTeams = new Team(teams);
@@ -19,6 +19,7 @@ export const createTeam = async (req, res) => {
         await newTeams.save();
         res.status(201).json({ success: true, message: "Team added successfully", data: newTeams });
     } catch (error) {
+        console.log(error);
         res.status(500).json({ success: false, message: "Server Error" });
     }
     
@@ -52,7 +53,7 @@ export const deleteTeam = async (req,res)=> {
 export const editTeam = async (req,res) => {
     const id = req.params.id;
     Team.findByIdAndUpdate(id, req.body, { new: true })
-        .then(() => res.status(201).json({ msg: "player Updated successfully" }))
+        .then(() => res.status(201).json({ msg: "Team Updated successfully" }))
         .catch(err => {
             res.status(500).send(err.message);
 
